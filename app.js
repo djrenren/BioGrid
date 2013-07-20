@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
+  , Game = require('./lib/game')
   , path = require('path');
 
 var app = express();
@@ -30,6 +31,14 @@ app.get('/', routes.index);
 
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);
+
+var game = new Game();
+
+io.sockets.on('connection', function(socket){
+  socket.on('identify', function(data){
+    game.identify(socket, data);
+  })
+});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
