@@ -1,10 +1,16 @@
 var Reginald = new Creature({name: "Reggie", stats:{}});
 
-Reginald.ready = function(){
-  console.log("Reginald is ready");
-  console.log(this);
-}
+Reginald.on('ready', function(){
+  console.log("I'm Ready!");
+});
 
-Reginald.move = function(){
-  console.log(this);
-}
+Reginald.on('updated', function(attr){
+  console.log(attr + " attribute updated!");
+});
+
+Reginald.on('attacked', function(){});
+
+Reginald.move('up');
+Reginald.move('down');
+Reginald.move('left');
+Reginald.move('right');
