@@ -14,6 +14,7 @@ function Creature(config){
   var self = this;
 
   // Hide the socket attribute to avoid confusion.
+  console.log(location.host);
   Object.defineProperty(this, "socket", hidden(io.connect('http://' + location.host)));
 
   Object.defineProperty(this, "events", {
@@ -52,8 +53,16 @@ Object.defineProperties(Creature.prototype, {
       self.emit('ready');
     });
 
-  }),
+    this.socket.on('notify', function(ev){
+      console.log("I'm notifying you of a change");
+      console.log(ev);
+    });
 
+    // We bind this to console because some browser get
+    // picky about safety if it's not bound.
+    this.socket.on('warn', console.warn.bind(console));
+
+  }),
 
   // Used when the server updates the local data (usually in this.state)
   _set: hidden(function(data){
@@ -71,7 +80,6 @@ Object.defineProperties(Creature.prototype, {
   emit: hidden(function(ev, anyNumberOfArgs){
     var self = this  // keep a reference for inside closures
       , args = Array.prototype.slice.call(arguments, 1);
-    console.log(this.events);
     if(ev in this.events)
       this.events[ev].forEach(function(action){
         setTimeout(function(){      // Use setTimeout for faux-concurrency
@@ -82,6 +90,8 @@ Object.defineProperties(Creature.prototype, {
 });
 
 Creature.prototype.move = function(dir){
+  console.log("Creature says move!");
+
   this.socket.emit('move', dir);
 }
 
@@ -92,11 +102,5 @@ Creature.prototype.on = function(ev, func){
   else
     this.events[ev] = [func];
 }
-
-Creature.prototype.ready = function(){
-  console.log("I'M READY!!");
-}
-
-
 
 scope.Creature = Creature})(window);

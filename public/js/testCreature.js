@@ -11,6 +11,3 @@ Reginald.on('updated', function(attr){
 Reginald.on('attacked', function(){});
 
 Reginald.move('up');
-Reginald.move('down');
-Reginald.move('left');
-Reginald.move('right');

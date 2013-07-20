@@ -35,7 +35,9 @@ var server = http.createServer(app)
 var game = new Game();
 
 io.sockets.on('connection', function(socket){
+  console.log("Connecting...");
   socket.on('identify', function(data){
+    console.log("IDENTIFYING!!!");
     game.identify(socket, data);
   })
 });
