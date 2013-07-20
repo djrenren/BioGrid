@@ -48,6 +48,10 @@ Object.defineProperties(Creature.prototype, {
     var self = this;
     this.socket.on('set', this._set.bind(this));
 
+    this.socket.on('see', function(grid){
+      self.emit('see', grid);
+    });
+
     this.socket.on('ready', function(){
       console.log("Ready event Received");
       self.emit('ready');

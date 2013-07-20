@@ -1,0 +1,24 @@
+{
+  "water": {
+    "walkable": false,
+    "minDepth": 1,
+    "maxDepth": 10
+  },
+
+  "grain": {
+    "walkable": true,
+    "foodValue": 1,
+    "minCapacity": 1,
+    "maxCapacity": 10
+  },
+
+  "field": {
+    "walkable": true
+  },
+
+  "random": {
+    "field": 0.67,
+    "grain": 0.23,
+    "water": 0.1
+  }
+}

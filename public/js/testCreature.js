@@ -10,4 +10,6 @@ Reginald.on('updated', function(attr){
 
 Reginald.on('attacked', function(){});
 
-Reginald.move('up');
+Reginald.on('see', function(grid){
+  console.log(grid);
+});
