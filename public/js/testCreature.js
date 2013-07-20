@@ -1,15 +1,13 @@
 var Reginald = new Creature({name: "Reggie", stats:{}});
 
 Reginald.on('ready', function(){
-  console.log("I'm Ready!");
+  this.look();
 });
 
 Reginald.on('updated', function(attr){
-  console.log(attr + " attribute updated!");
 });
 
 Reginald.on('attacked', function(){});
 
 Reginald.on('see', function(grid){
-  console.log(grid);
 });

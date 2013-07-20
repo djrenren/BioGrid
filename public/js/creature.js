@@ -99,6 +99,11 @@ Creature.prototype.move = function(dir){
   this.socket.emit('move', dir);
 }
 
+// Results appear in the on('see') event
+Creature.prototype.look = function(){
+  this.socket.emit('look');
+}
+
 // Some event flavored action
 Creature.prototype.on = function(ev, func){
   if(ev in this.events)

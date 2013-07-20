@@ -34,12 +34,23 @@ var server = http.createServer(app)
 
 var game = new Game();
 
+io.set('log level', 1); // Let's turn down the pesky debug statements
+
 io.sockets.on('connection', function(socket){
   console.log("Connecting...");
   socket.on('identify', function(data){
     console.log("IDENTIFYING!!!");
     game.identify(socket, data);
-  })
+  });
+});
+
+// We register the sockets individually with game
+// rather than relying on socket.io to isolate
+// socket.io from game and to allow for any
+// EventEmitter to act as an observer
+io.of('/observer').on('connection', function(socket){
+  console.log("REGISTERING>>>");
+  game.registerObserver(socket);
 });
 
 server.listen(app.get('port'), function(){
