@@ -15,7 +15,7 @@ function Grid(canvas){
   this.ctx = this.canvas.getContext('2d');
   this.canvas.width = 500;
 
-  this.tilesHigh = this.tilesWide = 3;
+  this.tilesHigh = this.tilesWide = 11;
 
   this.viewport = [0,0,11,11];
   console.log(this.viewport);
