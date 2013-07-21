@@ -15,12 +15,16 @@ function Grid(canvas){
   this.ctx = this.canvas.getContext('2d');
   this.canvas.width = 500;
 
+  this.tilesHigh = this.tilesWide = 3;
+
   this.viewport = [0,0,11,11];
   console.log(this.viewport);
 }
 
 Grid.prototype.setViewport = function(x1, y1, x2, y2){
   this.viewport = [x1, y1, x2, y2];
+  console.log("Setting viewport");
+  console.log(this.viewport);
   this.draw.apply(this, this.viewport);
 }
 
@@ -49,26 +53,43 @@ Grid.prototype.redraw = function(){
 
 // Draws tiles for this section of the map
 Grid.prototype.draw = function(x1, y1, x2, y2){
+  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   console.log("DRAWING!");
   for(var i = x1; i <= x2; i++)
     for(var j = y1; j <= y2; j++)
-      this.drawTile(this.grid[i+','+j], i-x1, j-y1, x2-x1, y2-y1);
+      this.drawTile(this.grid[i+','+j], i-x1, j-y1, x2-x1 + 1, y2-y1 + 1);
 }
+
+// Center the viewport on a specific square
+Grid.prototype.centerOn = function(x, y){
+  this.setViewport(
+    x - Math.floor(this.tilesWide/2), y - Math.floor(this.tilesHigh/2),
+    x + Math.floor(this.tilesWide/2), y + Math.floor(this.tilesHigh/2));
+}
+
 
 Grid.prototype.drawTile = function(tileInfo, relX, relY, tilesWide, tilesHigh){
 
   var tileWidth = this.canvas.width / tilesWide
     , tileHeight = this.canvas.height / tilesHigh;
 
-  this.ctx.lineWidth = 3;
-  if(!tileInfo)
-    this.ctx.strokeStyle = "#000";
-  else if(tileInfo.type === "field")
-    this.ctx.strokeStyle = "#0f0";
-  else
-    this.ctx.strokeStyle = "#f00";
+  this.ctx.lineWidth = 2;
 
-  this.ctx.strokeRect( // Remember origin is top-left so we must correct
-    relX * tileWidth, this.canvas.height - (relY * tileHeight),
-    tileWidth, -1*tileHeight);
+  this.ctx.strokeStyle = "#FFF";
+
+  if(!tileInfo)
+    this.ctx.fillStyle = "#000";
+  else if(tileInfo.type === "field")
+    this.ctx.fillStyle = "#0f0";
+  else
+    this.ctx.fillStyle = "#f00";
+
+ // Remember origin is top-left so we must correct
+  var x = relX * tileWidth
+    , y = this.canvas.height - (relY * tileHeight)
+    , width = tileWidth
+    , height = -1*tileHeight;
+
+  this.ctx.strokeRect(x, y, width, height);
+  this.ctx.fillRect(x, y, width, height);
 }

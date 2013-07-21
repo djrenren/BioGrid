@@ -9,6 +9,8 @@
 
     window.game = new BioGrid('grid');
 
+    game.followCreature('Reggie');
+
     fileDrop.addEventListener('dragover', handleDragOver, false);
     fileDrop.addEventListener('drop', handleFileSelect, false);
   });

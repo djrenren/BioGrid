@@ -48,23 +48,26 @@ Object.defineProperties(Creature.prototype, {
     var self = this;
     this.socket.on('set', this._set.bind(this));
 
-    this.socket.on('see', function(grid){
-      self.emit('see', grid);
-    });
-
     this.socket.on('ready', function(){
       console.log("Ready event Received");
       self.emit('ready');
     });
 
-    this.socket.on('notify', function(ev){
-      console.log("I'm notifying you of a change");
-      console.log(ev);
-    });
+    // Allow this event through directly from socket to emitter
+    this.passthrough(
+      'warn', 
+      'error',
+      'see', 
+      'creatureMoved', 
+      'creatureDeath');
 
     // We bind this to console because some browser get
     // picky about safety if it's not bound.
     this.socket.on('warn', console.warn.bind(console));
+
+    // We bind this to console because some browser get
+    // picky about safety if it's not bound.
+    this.socket.on('error', console.error.bind(console));
 
   }),
 
@@ -90,6 +93,21 @@ Object.defineProperties(Creature.prototype, {
           action.apply(self, args);
         }, 0);
       });  
+  }),
+
+
+  // Used to mirror socket events to the creature
+  passthrough: hidden(function(anyNumberOfArgs){
+    var events = Array.prototype.slice.call(arguments) // A copy to persist
+      , self = this; // Keep a reference for closures
+
+    events.forEach(function(ev){
+      // Mirror the socket event
+      self.socket.on(ev, function(data){
+        self.emit(ev, data);
+      });
+    });
+
   })
 });
 

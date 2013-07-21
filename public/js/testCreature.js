@@ -11,3 +11,7 @@ Reginald.on('attacked', function(){});
 
 Reginald.on('see', function(grid){
 });
+
+Reginald.on('creatureMoved', function(ev){
+  console.log(ev);
+});
