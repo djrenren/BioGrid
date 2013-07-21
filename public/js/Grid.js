@@ -81,6 +81,8 @@ Grid.prototype.drawTile = function(tileInfo, relX, relY, tilesWide, tilesHigh){
     this.ctx.fillStyle = "#000";
   else if(tileInfo.type === "field")
     this.ctx.fillStyle = "#0f0";
+  else if(tileInfo.type === "water")
+    this.ctx.fillStyle = "#00f";
   else
     this.ctx.fillStyle = "#f00";
 
