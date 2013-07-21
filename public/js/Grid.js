@@ -31,8 +31,6 @@ Grid.prototype.update = function(gridSegment){
     var coord = tile.split(',');
     coord[0] = parseInt(coord[0]);
     coord[1] = parseInt(coord[1]);
-    console.log(coord);
-    console.log(this.viewport);
     // If coord is in viewport, redraw
     if(coord[0] >= this.viewport[0] && coord[0] <= this.viewport[2]
       && coord[1] >= this.viewport[1] && coord[1] <= this.viewport[3])
@@ -58,13 +56,9 @@ Grid.prototype.draw = function(x1, y1, x2, y2){
 }
 
 Grid.prototype.drawTile = function(tileInfo, relX, relY, tilesWide, tilesHigh){
-  console.log(tilesWide);
-  console.log(tilesHigh);
 
   var tileWidth = this.canvas.width / tilesWide
     , tileHeight = this.canvas.height / tilesHigh;
-
-  console.log(tileWidth);
 
   this.ctx.lineWidth = 3;
   if(!tileInfo)
@@ -73,12 +67,6 @@ Grid.prototype.drawTile = function(tileInfo, relX, relY, tilesWide, tilesHigh){
     this.ctx.strokeStyle = "#0f0";
   else
     this.ctx.strokeStyle = "#f00";
-  console.log('we made it so far');
-
-  console.log(relX * tileWidth);
-  console.log(this.canvas.height - (relY * tileHeight));
-  console.log(tileWidth);
-  console.log(tileHeight);
 
   this.ctx.strokeRect( // Remember origin is top-left so we must correct
     relX * tileWidth, this.canvas.height - (relY * tileHeight),
