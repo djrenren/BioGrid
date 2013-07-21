@@ -1,4 +1,6 @@
-var Reginald = new Creature({name: "Reggie", stats:{}});
+var Reginald = new Creature({name: "Reggie", stats:{
+  metabolism: 500
+}});
 
 Reginald.on('ready', function(){
   this.look();
